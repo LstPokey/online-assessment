@@ -44,7 +44,7 @@ function fill_grid() {
     let teeth = Math.floor(Math.random() * 3) + 1;
     document.getElementById("teeth").innerText = teeth.toString();
 
-    $('img').each( function( index, element ){
+    $('img').each(function() {
         $(this).removeClass("bg-green-100 selected");
 
         let count = Math.floor(Math.random() * 3) + 1;
@@ -67,7 +67,7 @@ function update_score() {
     let roundScore = 0;
     let elements = 0;
 
-    $('img').each(function(index, element) {
+    $('img').each(function() {
         elements++;
         let count = $(this).data("teeth");
         let selected = $(this).hasClass("selected");

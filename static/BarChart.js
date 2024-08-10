@@ -33,7 +33,7 @@ function initializeChart1(){
         };
         
         const data_barchart = {
-            labels: ['Nein', 'Ja', 'Unbearbietet'],
+            labels: ['Falsch', 'Richtig', 'Unbeantwortet'],
             datasets: [{
                 label: 'Data',
                 data: dataBar.pattern,

@@ -5,17 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/static/output.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0"></script>
-    <script>
-        tailwind.config = {
-            theme:{
-                fontFamily:{
-                    sans: ['Arial']
-                }
-            }
-        }
-    </script>
     <style>
         .sidebar{
       transition:all .4s ease-in-out;
@@ -57,23 +48,41 @@
 
           <!-- Diagramme-->
           <main class="flex-auto grid grid-cols-3 gap-10 grid-rows-2 h-screen">
+            {% if tests['Schlüsselaufgabe'] == 1 %}
             <div class="bg-white rounded shadow-md ml-5 my-5 relative overflow-hidden">
               <canvas class="max-w-full max-h-full" id="donutChart"></canvas>
             </div>
+            {% else %}
+            <div class="bg-white rounded shadow-md ml-5 my-5 flex items-center justify-center">
+              <p class="text-lg text-gray-400 italic">No data</p>
+            </div>
+            {% endif %}
+
+            {% if tests['Persönlichkeitstest'] == 1 %}
             <div class="bg-white rounded shadow-md my-5 relative overflow-hidden">
               <canvas class="max-w-full max-h-full" id="radarChart"></canvas>
             </div>
+            {% else %}
+            <div class="bg-white rounded shadow-md my-5 flex items-center justify-center">
+              <p class="text-lg text-gray-400 italic">No data</p>
+            </div>
+            {% endif %}
+
+            {% if tests['Musteraufgabe'] == 1 %}
             <div class="bg-white rounded shadow-md my-5 mr-5 relative overflow-hidden row-span-2">
               <canvas class="max-w-full max-h-full" id="barChart"></canvas>
             </div>
-            <div class="bg-white rounded shadow-md mb-5 ml-5">
-              <!-- <p class="text-3xl m-4">Logged in as:</p> -->
+            {% else %}
+            <div class="bg-white rounded shadow-md my-5 mr-5 relative overflow-hidden row-span-2 flex items-center justify-center">
+              <p class="text-lg text-gray-400 italic">No data</p>
             </div>
-            <div class="bg-white rounded shadow-md mb-5 overflow-hidden">
-              <!-- <p class="text-3xl m-4">Test solved from:</p>
-              <p class="text-lg mx-4">Oskar</p>
-              <p class="text-3xl m-4">Date:</p>
-              <p class="text-lg mx-4">25.05.2023</p> -->
+            {% endif %}
+
+            <div class="bg-white rounded shadow-md mb-5 ml-5 flex items-center justify-center">
+              <p class="text-lg text-gray-400 italic">No data</p>
+            </div>
+            <div class="bg-white rounded shadow-md mb-5 flex items-center justify-center">
+              <p class="text-lg text-gray-400 italic">No data</p>
             </div>
             
           </main>

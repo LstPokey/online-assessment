@@ -4,17 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Index</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/static/output.css">
     <script src="/static/jquery-3.7.1.min.js"></script>
-    <script>
-        tailwind.config = {
-            theme:{
-                fontFamily:{
-                    sans: ['Arial']
-                }
-            }
-        }
-    </script>
 </head>
 <body class="h-screen flex items-center justify-center ">
     <div class="px-64">
@@ -32,33 +23,56 @@
         <p class="mb-2">Wir wünschen Ihnen viel Erfolg!</p>
 
         <ul class="list-disc pl-4">
-			<!-- TODO(Hagen): do this procedurally -->
-            <li><a id="0" href="{{ urls[0] }}" class="underline text-blue-700">
-                Persönlichkeitstest
-            </a></li>
-			<li><a id="1" href="{{ urls[1] }}" class="underline text-blue-700">
-                Muster vervollständigen
-            </a></li>
-            <li><a id="2" href="{{ urls[2] }}" class="underline text-blue-700">
-                Zeitaufgabe
-            </a></li>
+            {% for k,v in tests.items() %}
+            <li id="{{k}}" data-solved="0" {%if not v%}hidden{%endif%}>
+                <a href="{{ urls[k] }}" class="underline text-blue-700" onclick="update_solved_tests(event)">
+                    {{ k }}
+                </a>
+            </li>
+            {% endfor %}
         </ul>
     </div>
 
+    <!-- This needs to live specifically here because `tests` gets sent here from the backend -->
     <script>
-		// TODO(Hagen): track whether a test has been solved and if so, hide it
-        $(function() {
-            let solved_tests = localStorage.getItem("solved_tests");
-            if (solved_tests === null) {
-				solved_tests = [0, 0, 0];
-				localStorage.setItem("solved_tests", JSON.stringify(solved_tests));
-				return;
-			}
+        let solved_tests = {};
+        $(function () {
+            if (localStorage.getItem("solved_tests") === null) {
+                let tests = JSON.parse(`{{ tests|tojson }}`);
 
-            $("li").each(function(index, elem) {
-                if (false) $(this).hide();
+                // filter out tests that dont need to be solved
+                for (let key in tests)
+                    if (tests.hasOwnProperty(key) && tests[key] !== 1) delete tests[key];
+
+                // initialize array to track solved tests
+                for (let key in tests) solved_tests[key] = 0;
+                localStorage.setItem("solved_tests", JSON.stringify(solved_tests));
+            } else {
+                solved_tests = JSON.parse(localStorage.getItem("solved_tests"));
+                let numOfElements = Object.entries(solved_tests).length;
+                let counter = 0;
+
+                for (let key in solved_tests) {
+                    if (solved_tests[key] == 1) {
+                        counter++;
+                        $("#" + key).data("solved", 1);
+                    }
+                }
+                if (counter == numOfElements) location.href = "/ClosingPage";
+            }
+
+            $("li").each(function (index, elem) {
+                if ($(this).data("solved") == 1) $(this).hide();
             });
         });
+
+        function update_solved_tests(event) {
+            let key = event.target.parentNode.id;
+            solved_tests[key] = 1;
+            localStorage.setItem("solved_tests", JSON.stringify(solved_tests));
+
+            $("#" + event.target.parentNode.id).data("solved", 1);
+        }
     </script>
 </body>
 </html>
