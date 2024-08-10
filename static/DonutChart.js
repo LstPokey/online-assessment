@@ -57,11 +57,11 @@ function initializeChart2(){
         };
         
         const data = {
-            labels: ['Richtig', 'Unbearbeitet'],
+            labels: ['Punkte', 'Rest'],
             datasets:[{
                 data: dataDonut.key,
-                backgroundColor:['#FF6384', '#36A2EB', '#FFCE56'],
-                hoverBackgroundColor:['#FF6384', '#36A2EB', '#FFCE56']
+                backgroundColor:['#4caf50', '#36A2EB'],
+                hoverBackgroundColor:['#4caf50', '#36A2EB']
             }]
         };
         const options = {
