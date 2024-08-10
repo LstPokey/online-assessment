@@ -17,6 +17,11 @@ async function toHex(buffer){
     return hexCodes.join('');
 }
 
+function clearInput(){
+    document.getElementById('e-mail').value = '';
+    document.getElementById('e-password').value = '';
+}
+
 async function handleSubmit(event){
     event.preventDefault();
     const username = document.getElementById('e-mail').value;
@@ -28,10 +33,21 @@ async function handleSubmit(event){
         body:
             JSON.stringify({ username:username, password: hashedPassword })
     });
+        
     if (response.ok) {
-        const redirectUrl = response.url;
-        window.location.href = redirectUrl;
+        const result = await response.json();
+        if (result.success) {
+            window.location.href = result.redirect_url;
+        } else {
+            const failure = document.getElementById('wrong-credentials');
+            failure.innerText = "Invalid Credentials";
+            clearInput();
+            console.log("Login failed: Invalid credentials");
+        }
     } else {
-        console.log("Login failed:");
+        const failure = document.getElementById('wrong-credentials');
+        failure.innerText = "Login request failed";
+        clearInput();
+        console.log("Login request failed");
     }
 }

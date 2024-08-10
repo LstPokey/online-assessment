@@ -13,22 +13,23 @@ function initializeChart1(){
             beforeDraw: chart => {
                 const { ctx, scales: { x, y } } = chart;
                 const { targetValues } = chart.data.datasets[0];
+                const index = 1;
+                const target = targetValues[0]
+            
+            
+                const xPosStart = x.getPixelForValue(index) - (x.getPixelForValue(index) - x.getPixelForValue(index - 1)) / 2;
+                const xPosEnd = x.getPixelForValue(index) + (x.getPixelForValue(index + 1) - x.getPixelForValue(index)) / 2;
+                const yPos = y.getPixelForValue(target);
                 
-                targetValues.forEach((target, index) => {
-                    const xPosStart = x.getPixelForValue(index) - (x.getPixelForValue(index) - x.getPixelForValue(index - 1)) / 2;
-                    const xPosEnd = x.getPixelForValue(index) + (x.getPixelForValue(index + 1) - x.getPixelForValue(index)) / 2;
-                    const yPos = y.getPixelForValue(target);
-                    
-                    ctx.save();
-                    ctx.strokeStyle = 'red';
-                    ctx.lineWidth = 2;
-                    ctx.setLineDash([5, 5]);
-                    ctx.beginPath();
-                    ctx.moveTo(xPosStart, yPos);
-                    ctx.lineTo(xPosEnd, yPos);
-                    ctx.stroke();
-                    ctx.restore();
-                });
+                ctx.save();
+                ctx.strokeStyle = 'red';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([5, 5]);
+                ctx.beginPath();
+                ctx.moveTo(xPosStart, yPos);
+                ctx.lineTo(xPosEnd, yPos);
+                ctx.stroke();
+                ctx.restore();
             }
         };
         
@@ -40,7 +41,7 @@ function initializeChart1(){
                 backgroundColor: 'rgba(54, 162, 235, 0.2)',
                 borderColor: 'rgba(54, 162, 235, 1)',
                 borderWidth: 1,
-                targetValues: [10, 15, 5]
+                targetValues: [2]
             }]
         };
         

@@ -30,11 +30,12 @@
                         <path d="M144 144v48H304V144c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192V144C80 64.5 144.5 0 224 0s144 64.5 144 144v48h16c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V256c0-35.3 28.7-64 64-64H80z"/>
                     </svg>
                 </label>
-                <input class="rounded-md p-3" id="password" type="password" name="password" id="password" placeholder="Passwort"/>
+                <input class="rounded-md p-3" id="password" type="password" name="password" placeholder="Passwort"/>
             </div> 
         </fieldset>
         
         <fieldset>
+            <div id="wrong-credentials" class="text-red-500 text-center py-3"></div>
             <div class="flex justify-center">
                 <button class="bg-white rounded-lg shadow-md p-3" type="submit" id="submit">Anmelden</button>
             </div>

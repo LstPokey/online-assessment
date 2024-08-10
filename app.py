@@ -120,7 +120,9 @@ def LogIn():
         if saved_password and saved_password[0] == hashed_pw:
             session['loggedIn'] = True
             close_connection()
-            return redirect(url_for('ExtendedDashboard'))
+            return jsonify({"success": True, "redirect_url": url_for('ExtendedDashboard')})
+        else:
+            return jsonify({"success": False})
     close_connection()
     return render_template("LogIn.html")
 
