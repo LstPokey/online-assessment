@@ -15,6 +15,7 @@
             }
         }
     </script>
+    <script src="/user_index.js"></script>
 </head>
 <body class="h-screen flex items-center justify-center ">
     <div class="px-64">
@@ -32,33 +33,14 @@
         <p class="mb-2">Wir wünschen Ihnen viel Erfolg!</p>
 
         <ul class="list-disc pl-4">
-			<!-- TODO(Hagen): do this procedurally -->
-            <li><a id="0" href="{{ urls[0] }}" class="underline text-blue-700">
-                Persönlichkeitstest
-            </a></li>
-			<li><a id="1" href="{{ urls[1] }}" class="underline text-blue-700">
-                Muster vervollständigen
-            </a></li>
-            <li><a id="2" href="{{ urls[2] }}" class="underline text-blue-700">
-                Zeitaufgabe
-            </a></li>
+            {% for k,v in tests.items() %}
+            <li id="{{k}}" data-solved="0" {%if not v%}hidden{%endif%}>
+                <a href="{{ urls[k] }}" class="underline text-blue-700" onclick="update_solved_tests(event)">
+                    {{ k }}
+                </a>
+            </li>
+            {% endfor %}
         </ul>
     </div>
-
-    <script>
-		// TODO(Hagen): track whether a test has been solved and if so, hide it
-        $(function() {
-            let solved_tests = localStorage.getItem("solved_tests");
-            if (solved_tests === null) {
-				solved_tests = [0, 0, 0];
-				localStorage.setItem("solved_tests", JSON.stringify(solved_tests));
-				return;
-			}
-
-            $("li").each(function(index, elem) {
-                if (false) $(this).hide();
-            });
-        });
-    </script>
 </body>
 </html>

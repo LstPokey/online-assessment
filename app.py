@@ -143,8 +143,28 @@ def Timed_KeySelects_Closing():
 
 @app.route("/Home")
 def Home():
-    urls = [url_for("Persoenlichkeit"), url_for("Logicver"), url_for("Timed_KeySelects")]
-    return render_template("user_index.html", urls=urls)
+    # TODO: implement
+    db = getDB()
+    cur = db.execute(
+        "SELECT Persönlichkeitstest, Musteraufgabe, Schlüsselaufgabe FROM User WHERE ID = ?",
+        (session['user_id'],)
+    )
+    tests = cur.fetchone()
+    tests = dict(tests)
+    close_connection()
+    print(tests)
+
+    urls = {}
+    for k,v in tests.items():
+        # we need to check manually because of poor naming :/
+        if k == "Persönlichkeitstest":
+            urls[k] = url_for("Persoenlichkeit")
+        elif k == "Musteraufgabe":
+            urls[k] = url_for("Logicver")
+        elif k == "Schlüsselaufgabe":
+            urls[k] = url_for("Timed_KeySelects")
+
+    return render_template("user_index.html", tests=tests, urls=urls)
 
 @app.route("/Logicver")
 def Logicver():
@@ -179,6 +199,7 @@ def getDB():
     db = getattr(g, '_database', None)
     if db is None:
         db = g._database = sqlite3.connect(DATABASE, timeout=10)
+        db.row_factory = sqlite3.Row
     return db
 
 def close_connection():
