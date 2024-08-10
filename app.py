@@ -24,7 +24,18 @@ def index():
 def Dashboard():
     session.pop('profile_loaded', None)
     session.pop('loggedIn', False)
-    return render_template("Dashboard.html")
+
+    db = getDB()
+    cur = db.execute(
+        "SELECT Persönlichkeitstest, Musteraufgabe, Schlüsselaufgabe FROM User WHERE ID = ?",
+        (session['user_id'],)
+    )
+    tests = cur.fetchone()
+    tests = dict(tests)
+    close_connection()
+    print(tests)
+
+    return render_template("Dashboard.html", tests=tests)
 
 @app.route('/Test_Results', methods=['POST','GET'])
 def Data():
@@ -143,7 +154,6 @@ def Timed_KeySelects_Closing():
 
 @app.route("/Home")
 def Home():
-    # TODO: implement
     db = getDB()
     cur = db.execute(
         "SELECT Persönlichkeitstest, Musteraufgabe, Schlüsselaufgabe FROM User WHERE ID = ?",

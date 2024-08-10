@@ -57,15 +57,36 @@
 
           <!-- Diagramme-->
           <main class="flex-auto grid grid-cols-3 gap-10 grid-rows-2 h-screen">
+            {% if tests['Schlüsselaufgabe'] == 1 %}
             <div class="bg-white rounded shadow-md ml-5 my-5 relative overflow-hidden">
               <canvas class="max-w-full max-h-full" id="donutChart"></canvas>
             </div>
+            {% else %}
+            <div class="bg-white rounded shadow-md ml-5 my-5 flex items-center justify-center">
+              <p class="text-lg text-gray-400 italic">No data</p>
+            </div>
+            {% endif %}
+
+            {% if tests['Persönlichkeitstest'] == 1 %}
             <div class="bg-white rounded shadow-md my-5 relative overflow-hidden">
               <canvas class="max-w-full max-h-full" id="radarChart"></canvas>
             </div>
+            {% else %}
+            <div class="bg-white rounded shadow-md my-5 flex items-center justify-center">
+              <p class="text-lg text-gray-400 italic">No data</p>
+            </div>
+            {% endif %}
+
+            {% if tests['Musteraufgabe'] == 1 %}
             <div class="bg-white rounded shadow-md my-5 mr-5 relative overflow-hidden row-span-2">
               <canvas class="max-w-full max-h-full" id="barChart"></canvas>
             </div>
+            {% else %}
+            <div class="bg-white rounded shadow-md my-5 mr-5 relative overflow-hidden row-span-2 flex items-center justify-center">
+              <p class="text-lg text-gray-400 italic">No data</p>
+            </div>
+            {% endif %}
+
             <div class="bg-white rounded shadow-md mb-5 ml-5 flex items-center justify-center">
               <p class="text-lg text-gray-400 italic">No data</p>
             </div>
